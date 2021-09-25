@@ -1,0 +1,28 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<div class="main">
+    <form action="{% url 'login'%}" method="POST">
+        {% csrf_token %}
+
+        <!-- Form is here -->
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+            {{ form.email.errors }}
+            <label for="{{ form.email.id_for_label }}">Email:</label>
+            {{ form.email }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.password.errors }}
+            <label for="{{ form.password.id_for_label }}">Password:</label>
+            {{ form.password }}
+        </div>
+
+        <!-- Submit Button -->
+        <input type="submit" value="Login">
+
+    </form>
+    <!-- Login Form Ends here -->
+
+</div>
+{% endblock %}
