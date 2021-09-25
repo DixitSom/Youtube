@@ -1,0 +1,14 @@
+
+.form {
+    display: grid;
+    row-gap: 1em;
+    justify-content: center;
+}
+
+.form div.wrapper {
+    display: grid;
+}
+
+.form div.wrapper label{
+    justify-self: center;
+}
