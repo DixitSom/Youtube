@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import User, Channel
+from .models import Content, User, Channel
 
 
 # This is form for user Login
@@ -33,3 +33,10 @@ class ChannelForm(forms.ModelForm):
     class Meta:
         model = Channel
         exclude = ['user', 'created_at']
+
+
+class ContentForm(forms.ModelForm):
+
+    class Meta:
+        model = Content
+        exclude = ['channel', 'user']
