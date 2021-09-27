@@ -4,14 +4,10 @@ from .models import User, Channel
 
 
 # This is form for user Login
-class UserLoginForm(forms.ModelForm):
+class UserLoginForm(forms.Form):
 
-    email = forms.EmailField(max_length=20)
-    password = forms.PasswordInput(render_value=False)
-
-    class Meta:
-        model = User
-        fields = ['email', 'password']
+    email = forms.CharField(max_length=20, widget=forms.EmailInput)
+    password = forms.CharField(widget=forms.PasswordInput)
 
 
 # this form is for user Registration
@@ -21,7 +17,7 @@ class UserRegistrationForm(forms.ModelForm):
     last_name = forms.CharField(max_length=100)
     username = forms.CharField(max_length=100)
     email = forms.EmailField(max_length=20)
-    password = forms.PasswordInput()
+    password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
         model = User
