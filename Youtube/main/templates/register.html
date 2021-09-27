@@ -1,0 +1,57 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<div class="main">
+
+    <!-- Alert Messages -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong></strong> {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <!-- main form -->
+    <form action="{% url 'register'%}" method="POST" class="login-form form">
+        {% csrf_token %}
+
+        <!-- Form is here -->
+        {{ form.non_field_errors }}
+        <div class="wrapper">
+            {{ form.first_name.errors }}
+            <label for="{{ form.first_name.id_for_label }}">First Name</label>
+            {{ form.first_name }}
+        </div>
+        <div class="wrapper">
+            {{ form.last_name.errors }}
+            <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+            {{ form.last_name }}
+        </div>
+        <div class="wrapper">
+            {{ form.username.errors }}
+            <label for="{{ form.username.id_for_label }}">Username</label>
+            {{ form.username }}
+        </div>
+        <div class="wrapper">
+            {{ form.email.errors }}
+            <label for="{{ form.email.id_for_label }}">Email</label>
+            {{ form.email }}
+        </div>
+        <div class="wrapper">
+            {{ form.password.errors }}
+            <label for="{{ form.password.id_for_label }}">Password</label>
+            {{ form.password }}
+        </div>
+
+        <!-- Submit Button -->
+        <input type="submit" value="SignUp">
+
+    </form>
+    <!-- Login Form Ends here -->
+
+</div>
+{% endblock %}
