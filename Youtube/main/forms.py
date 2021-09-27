@@ -1,11 +1,13 @@
 from django import forms
-from django.forms import Widget
 
 from .models import User, Channel
 
 
 # This is form for user Login
 class UserLoginForm(forms.ModelForm):
+
+    email = forms.EmailField(max_length=20)
+    password = forms.PasswordInput(render_value=False)
 
     class Meta:
         model = User
@@ -14,6 +16,12 @@ class UserLoginForm(forms.ModelForm):
 
 # this form is for user Registration
 class UserRegistrationForm(forms.ModelForm):
+
+    first_name = forms.CharField(max_length=100)
+    last_name = forms.CharField(max_length=100)
+    username = forms.CharField(max_length=100)
+    email = forms.EmailField(max_length=20)
+    password = forms.PasswordInput()
 
     class Meta:
         model = User
@@ -28,4 +36,4 @@ class ChannelForm(forms.ModelForm):
 
     class Meta:
         model = Channel
-        exclude = ['user']
+        exclude = ['user', 'created_at']
