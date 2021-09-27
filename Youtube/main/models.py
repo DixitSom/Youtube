@@ -20,7 +20,7 @@ class Channel(models.Model):
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_created=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.name + 'by' + self.user.first_name
@@ -35,7 +35,7 @@ class Content(models.Model):
     tags = models.CharField(max_length=255)
     media = models.FileField(upload_to= file_path)
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_created=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.title + ' on ' + self.channel.name
@@ -48,7 +48,7 @@ class Interaction(models.Model):
     watch_time = models.IntegerField(null=True)
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    created_at = models.DateTimeField(auto_created=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 # Comments
@@ -58,4 +58,4 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
     reply_ref = models.ForeignKey('Comment', on_delete=models.CASCADE, null=True)
-    created_at = models.DateTimeField(auto_created=True)
+    created_at = models.DateTimeField(auto_now_add=True)
