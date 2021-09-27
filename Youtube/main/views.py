@@ -1,7 +1,9 @@
-from main.forms import UserLoginForm
 from django.shortcuts import redirect, render, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+
+from main.forms import UserLoginForm, UserRegistrationForm
+from .models import User
 
 # Create your views here.
 def index(request, *args, **kwargs):
@@ -27,11 +29,37 @@ def login_view(request, *args, **kwargs):
         else:
 
             # Add message for failure
-            messages.success(request, 'Invalid Credentials', extra_tags='danger')
+            messages.warning(request, 'Invalid Credentials', extra_tags='danger')
 
             return redirect('/login?next={0}'.format(request.GET.get('next', '')))
 
     return render(request, 'login.html', {'form': form})
-        
 
 
+
+# Sign Up view is here
+def signUp(request, *args, **kwargs):
+    
+    # context
+    ctx = {}
+
+    form = UserRegistrationForm(request.POST or None)
+
+    # If form data is valid
+    if form.is_valid():
+
+        email = form.cleaned_data.get('email')
+
+        # if email already registered
+        if User.objects.filter(email=email).exists():
+            messages.warning(request, "Email already in Use", extra_tags='danger')
+
+        else:
+            form.save()
+
+            return redirect('login')
+
+    # add form to context
+    ctx['form'] = form
+
+    return render(request, 'register.html', context=ctx)
