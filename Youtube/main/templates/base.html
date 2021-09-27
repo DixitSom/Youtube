@@ -19,7 +19,55 @@
     
     <!-- Header Starts From here -->
     <div class="header">
-        <h1>Youtube</h1>
+        <div class="nav-bar">
+
+            <!-- Youtube Logo will be here -->
+            <div class="logo">
+                <img src="" alt="">
+            </div>
+
+            <!-- This heading -->
+            <div class="heading">
+                <h1>Youtube</h1>
+            </div>
+
+            <!-- This is search Bar -->
+            <div class="search-bar">
+                <form class="search-from">
+                    <input type="search" name="search" id="search">
+                    <input type="submit" value="Search">
+                </form>
+            </div>
+
+            
+            {% if request.user.is_authenticated %}
+
+            <!-- Upload Video Button is here -->
+            <div class="upload-content">
+                <a href="{% url 'upload'%}">Upload</a>
+            </div>
+
+            <!-- USer Profile will be here -->
+            <div class="user-info">
+                {{ request.user.first_name }}
+            </div>
+
+            <!-- Logout option -->
+            <div class="logout">
+                <a href="{% url 'logout'%}">LogOut</a>
+            </div>
+
+            <!-- Login Option -->
+            {% else %}
+            <div class="login">
+                <a href="{% url 'login'%}">Login</a>
+            </div>
+            {% endif %}
+
+
+
+
+        </div>
     </div>
 
     <!-- Main Section is here -->
