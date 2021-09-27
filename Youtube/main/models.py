@@ -23,7 +23,7 @@ class Channel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.name + 'by' + self.user.first_name
+        return self.name + ' by ' + self.user.first_name
 
 
 
