@@ -1,6 +1,5 @@
 from django import forms
-from django.db import models
-from django.forms import fields
+from django.forms import Widget
 
 from .models import User, Channel
 
@@ -18,7 +17,10 @@ class UserRegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['first_name', 'last_name', 'username', 'email', 'password']
+        # widgets = {
+        #     f: Widget(attrs={'required':'required'}) for f in fields
+        # }
 
 
 # this is form is used to create Channels
