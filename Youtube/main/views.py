@@ -1,3 +1,4 @@
+from django.http import request
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -56,6 +57,15 @@ def login_view(request, *args, **kwargs):
     return render(request, 'login.html', {'form': form})
 
 
+# Logout View
+def signout(request, *args, **kwargs):
+
+    # Log out
+    if request.user.is_authenticated:
+        logout(request)
+
+    return redirect('login')
+
 
 # Sign Up view is here
 def signUp(request, *args, **kwargs):
@@ -111,11 +121,14 @@ def createChannel(request, *args, **kwargs):
     else:
         messages.warning(request, 'Something is wrong here', 'warning')
 
+    
+    # Set the context Manager
     ctx = {'form': form}
 
     return render(request, 'createChannel.html', context=ctx)
 
 
+# This is Channel View
 @login_required(login_url='login')
 def channel_view(request, *args, **kwargs):
     pass
