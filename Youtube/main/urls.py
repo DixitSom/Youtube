@@ -9,5 +9,5 @@ urlpatterns = [
     path('register/', signUp, name='register'),
     path('createChannel/', createChannel, name='createChannel'),
     path('channel/', channel_view, name='channel'),
-    path('upload', uploadContent, name='upload')
+    path('upload/', uploadContent, name='upload')
 ]
