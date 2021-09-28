@@ -1,4 +1,5 @@
 from django import forms
+from django.db import models
 
 from .models import Content, User, Channel
 
@@ -37,6 +38,11 @@ class ChannelForm(forms.ModelForm):
 
 class ContentForm(forms.ModelForm):
 
+    title = forms.CharField(max_length=100)
+    description = forms.CharField(max_length=100)
+    media = forms.FileField()
+    tags = forms.CharField(max_length=100)
+
     class Meta:
         model = Content
-        exclude = ['channel', 'user']
+        exclude = ['channel', 'user', 'created_at']
