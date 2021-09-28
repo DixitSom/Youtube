@@ -19,15 +19,11 @@
     
     <!-- Header Starts From here -->
     <div class="header">
-        <div class="nav-bar">
+        <div class="nav">
 
             <!-- Youtube Logo will be here -->
             <div class="logo">
                 <img src="" alt="">
-            </div>
-
-            <!-- This heading -->
-            <div class="heading">
                 <h1>Youtube</h1>
             </div>
 
@@ -39,34 +35,32 @@
                 </form>
             </div>
 
+            <div class="other-stuff">
+                {% if request.user.is_authenticated %}
+
+                <!-- Upload Video Button is here -->
+                <div class="upload-content">
+                    <a href="{% url 'upload'%}">Upload</a>
+                </div>
+
+                <!-- USer Profile will be here -->
+                <div class="user-info">
+                    {{ request.user.first_name }}
+                </div>
+
+                <!-- Logout option -->
+                <div class="logout">
+                    <a href="{% url 'logout'%}">LogOut</a>
+                </div>
+
+                <!-- Login Option -->
+                {% else %}
+                <div class="login">
+                    <a href="{% url 'login'%}">Login</a>
+                </div>
+                {% endif %}
+            </div>
             
-            {% if request.user.is_authenticated %}
-
-            <!-- Upload Video Button is here -->
-            <div class="upload-content">
-                <a href="{% url 'upload'%}">Upload</a>
-            </div>
-
-            <!-- USer Profile will be here -->
-            <div class="user-info">
-                {{ request.user.first_name }}
-            </div>
-
-            <!-- Logout option -->
-            <div class="logout">
-                <a href="{% url 'logout'%}">LogOut</a>
-            </div>
-
-            <!-- Login Option -->
-            {% else %}
-            <div class="login">
-                <a href="{% url 'login'%}">Login</a>
-            </div>
-            {% endif %}
-
-
-
-
         </div>
     </div>
 
