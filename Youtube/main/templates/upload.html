@@ -1,0 +1,45 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<div class="main">
+    <!-- Alert Messages -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong></strong> {{message}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <form action="{% url 'upload'%}" method="POST" class="upload-form form" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+        <div class="wrapper">
+            {{ form.media.errors }}
+            <label for="{{ form.media.id_for_label }}">Video</label>
+            {{ form.media }}
+        </div>
+        <div class="wrapper">
+            {{ form.title.errors }}
+            <label for="{{ form.title.id_for_label }}">Title</label>
+            {{ form.title }}
+        </div>
+        <div class="wrapper">
+            {{ form.description.errors }}
+            <label for="{{ form.content.id_for_label }}">Description</label>
+            {{ form.description }}
+        </div>
+        <div class="wrapper">
+            {{ form.tags.errors }}
+            <label for="{{ form.tags.id_for_label }}">Tags</label>
+            {{ form.tags }}
+        </div>
+
+        <input type="submit" value="Upload">
+    </form>
+</div>
+{% endblock %}
