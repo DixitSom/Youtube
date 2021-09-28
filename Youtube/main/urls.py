@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 from main.views import index, login_view, signUp, createChannel, channel_view, signout, uploadContent
 
@@ -10,4 +12,4 @@ urlpatterns = [
     path('createChannel/', createChannel, name='createChannel'),
     path('channel/', channel_view, name='channel'),
     path('upload/', uploadContent, name='upload')
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
