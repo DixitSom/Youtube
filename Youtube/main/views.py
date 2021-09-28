@@ -5,8 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
 
-from main.forms import UserLoginForm, UserRegistrationForm, ChannelForm
-from .models import Channel, User
+from main.forms import UserLoginForm, UserRegistrationForm, ChannelForm, ContentForm
+from .models import Channel, Content, User
 
 # Create your views here.
 def index(request, *args, **kwargs):
@@ -118,8 +118,6 @@ def createChannel(request, *args, **kwargs):
         Channel.objects.create(name= channel_name, description=description, user=user)
 
         messages.success(request, "Channel Created", 'success')
-    else:
-        messages.warning(request, 'Something is wrong here', 'warning')
 
     
     # Set the context Manager
@@ -132,3 +130,38 @@ def createChannel(request, *args, **kwargs):
 @login_required(login_url='login')
 def channel_view(request, *args, **kwargs):
     pass
+
+
+# Upload Content View is here
+@login_required(login_url='login')
+def uploadContent(request, *args, **kwargs):
+
+
+    form = ContentForm(request.POST or None, request.FILES or None)
+
+    # check if form is a valid form
+    if form.is_valid():
+
+        user = request.user                  # Get the active user
+        channel = user.channel_set.first()   # Get its channel
+
+        # If user has no channel then Go and create a channel first
+        if not channel:
+            return redirect('createChannel')
+        else:
+            title = form.cleaned_data['title']
+            media = form.cleaned_data['media']
+            description = form.cleaned_data['description']
+            
+
+            Content.objects.create(title=title, media=media, description=description, channel=channel)
+
+            # add a success message
+            messages.success(request, 'Video uploaded', extra_tags='success')
+
+            return redirect('upload')
+
+
+    ctx = {'form': form}
+    
+    return render(request, 'upload.html', context=ctx)
