@@ -1,3 +1,11 @@
+a:any-link {
+    color: unset;
+    text-decoration: none;
+}
+
+a:active {
+    color: unset;
+}
 
 body {
     display: grid;
@@ -22,6 +30,7 @@ body {
 
 /* Nav bar Ends here */
 
+/* Main from class */
 .form {
     display: grid;
     row-gap: 1em;
@@ -34,4 +43,17 @@ body {
 
 .form div.wrapper label{
     justify-self: center;
+}
+
+/* Main Form Class ends here */
+
+
+/* Video class is here */
+.videos {
+    padding-left: 1.5em;
+    display: flex;
+    column-gap: 1em;
+    row-gap: 1em;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }

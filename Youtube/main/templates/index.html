@@ -2,6 +2,16 @@
 
 {% block content %}
 <div class="main-home main">
-    <h2> This is Home page</h2>
+    <!-- <h2> This is Home page</h2> -->
+    <div class="videos">
+        {% for video in videos %}
+        <div class="video">
+            <video width='400' controls>
+                <source src="{{ video.media.url }}">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
