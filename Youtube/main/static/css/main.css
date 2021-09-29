@@ -57,3 +57,26 @@ body {
     flex-wrap: wrap;
     justify-content: flex-start;
 }
+/* Video class Ends here */
+
+/* Single Video css is here */
+.video-main {
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.video-main div.video {
+    grid-column: 1;
+    grid-row: 1;
+    padding-left: 1em;
+}
+
+.video-main div.videos {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.video-main div.comments {
+    grid-column: 1;
+    grid-row: 2;
+}
