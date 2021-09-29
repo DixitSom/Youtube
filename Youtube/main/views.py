@@ -1,7 +1,7 @@
 from django.http import request
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
 
@@ -9,9 +9,14 @@ from main.forms import UserLoginForm, UserRegistrationForm, ChannelForm, Content
 from .models import Channel, Content, User
 
 # Create your views here.
+# this is Home View
 def index(request, *args, **kwargs):
 
-    return render(request, 'index.html', {})
+    videos = Content.objects.all()
+
+    ctx = {'videos': videos}
+
+    return render(request, 'index.html', context=ctx)
 
 
 # Login Vies is here
@@ -45,7 +50,7 @@ def login_view(request, *args, **kwargs):
         if user is not None:
             login(request, user)
 
-            messages.success(request, "Logged In", extra_tags='success')
+            # messages.success(request, "Logged In", extra_tags='success')
             return redirect('/'+request.GET.get('next', ''))
         else:
 
@@ -135,6 +140,12 @@ def channel_view(request, *args, **kwargs):
 # Upload Content View is here
 @login_required(login_url='login')
 def uploadContent(request, *args, **kwargs):
+
+    # If user doesn't have a channel return Then first Create One
+    if request.user.channel_set.count() < 1:
+        messages.warning(request, "Create A Channel First", extra_tags='warning')
+
+        return redirect('createChannel')
 
 
     form = ContentForm(request.POST or None, request.FILES or None)
