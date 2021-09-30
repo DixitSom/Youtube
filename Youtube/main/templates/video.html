@@ -1,14 +1,14 @@
 {% extends 'base.html'%}
 
 {% block content %}
-<div class="main-video main">
+<div class="video-main">
 
     <!-- Single Video Section -->
     <div class="video">
-        <video width='700' controls>
-            <source src="{{ video.media.url }}">
+        <video src="{{ video.media.url }}" width='750' controls>
+            <!-- <source src="{{ video.media.url }}">
             Your browser does not support the video tag.
-        </video>
+        </video> -->
     </div>
     <!-- Single Video Section Ends here -->
 
@@ -22,10 +22,12 @@
     <div class="videos">
         {% for vid in videos %}
         <div class="video">
-            <video width='400' controls>
-                <source src="{{ vid.media.url }}">
+            <a href="{% url 'video' vid.id%}">
+            <video src='{{ vid.media.url }}' width='400'>
+                <!-- <source src="{{ vid.media.url }}">
                 Your browser does not support the video tag.
-            </video>
+            </video> -->
+            </a>
         </div>
         {% endfor %}
     </div>

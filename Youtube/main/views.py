@@ -12,11 +12,30 @@ from .models import Channel, Content, User
 # this is Home View
 def index(request, *args, **kwargs):
 
+    # Get all videos
     videos = Content.objects.all()
 
     ctx = {'videos': videos}
 
     return render(request, 'index.html', context=ctx)
+
+
+# This is view for single videos
+def video(request, *args, **kwargs):
+
+    # get Video ID from arguments
+    video_id = kwargs['video_id']
+    
+    # Get the content
+    video = Content.objects.get(pk=video_id)
+
+    # get all Videos for side view
+    videos = Content.objects.exclude(pk = video_id)
+
+    # set the context variable
+    ctx = {'video': video, 'videos':videos}
+
+    return render(request, 'video.html', context=ctx)
 
 
 # Login Vies is here
