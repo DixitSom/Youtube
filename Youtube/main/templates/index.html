@@ -7,10 +7,10 @@
         {% for video in videos %}
         <div class="video">
             <a href="{% url 'video' video.id%}">
-                <video width='400'>
-                    <source src="{{ video.media.url }}">
+                <video src="{{ video.media.url }}" width='400'></video>
+                    <!-- <source src="{{ video.media.url }}">
                     Your browser does not support the video tag.
-                </video>
+                </video> -->
             </a>
         </div>
         {% endfor %}
