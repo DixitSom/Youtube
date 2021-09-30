@@ -50,19 +50,61 @@ body {
 
 /* Video class is here */
 .videos {
-    padding-left: 1.5em;
-    display: flex;
+    padding: 1.5em;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
     column-gap: 1em;
     row-gap: 1em;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+}
+
+.video {
+    display: grid;
+    grid-template-rows: auto auto;
+    /* text-align: center; */
+}
+
+.video video{
+    width: 275;
+}
+
+.video-info {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: start;
+    align-items: start;
+    column-gap: 1em;
+}
+
+.video-info .video-title {
+    grid-row: 1;
+    grid-column: 2;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+.video-info .channel-name {
+    grid-row: 2;
+    grid-column: 2;
+    font-size: 0.9em;
+}
+
+.video-info .channel-logo {
+    grid-row: 1;
+    grid-column: 1;
+    border-radius: 100%;
+}
+
+.video-info .channel-logo img {
+    width: 2em;
+    height: 2em;
+    border-radius: 100%;
 }
 /* Video class Ends here */
 
 /* Single Video css is here */
 .video-main {
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: auto auto;
 }
 
 .video-main div.video {
@@ -71,12 +113,21 @@ body {
     padding-left: 1em;
 }
 
-.video-main div.videos {
+.video-main div.side-videos {
+    display: grid;
+    grid-template-columns: auto;
     grid-column: 2;
     grid-row: 1;
 }
 
 .video-main div.comments {
     grid-column: 1;
+    grid-row: 3;
+}
+
+.video-main div.interaction {
+    grid-column: 1;
     grid-row: 2;
+    display: grid;
+    grid-template-columns: auto auto auto;
 }
