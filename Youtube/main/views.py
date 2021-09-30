@@ -1,4 +1,4 @@
-from django.http import request
+from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
 
 from main.forms import UserLoginForm, UserRegistrationForm, ChannelForm, ContentForm
-from .models import Channel, Content, User
+from .models import Channel, Content, Interaction, User
 
 # Create your views here.
 # this is Home View
@@ -195,3 +195,40 @@ def uploadContent(request, *args, **kwargs):
     ctx = {'form': form}
     
     return render(request, 'upload.html', context=ctx)
+
+
+# View to Store interaction in databse
+@login_required(login_url='login')
+def feed_interaction(request, *args, **kwargs):
+
+    if request.method == 'GET':
+
+        print(request.GET)
+
+        video_id = request.GET.get('video')
+        type_interaction = request.GET.get('type')
+
+        video = Content.objects.get(pk=video_id)
+        
+            
+        interaction, created = Interaction.objects.get_or_create(user = request.user, content = video)
+        interaction.type = type_interaction
+        interaction.save()
+
+
+    return JsonResponse('Success', safe=False)
+
+
+def interaction_status(request, *args, **kwargs):
+    
+    # if request.method == 'GET':
+
+    video_id = int(request.GET['video_id'])
+    
+    like = Content.objects.get(pk = video_id).interaction_set.filter(type='like').count()
+    dislike = Content.objects.get(pk = video_id).interaction_set.filter(type='dislike').count()
+    watch = Content.objects.get(pk = video_id).interaction_set.filter(type='watch').count()
+    
+
+    return JsonResponse({'like': like, 'dislike': dislike, 'watch':watch})
+
