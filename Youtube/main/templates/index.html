@@ -1,17 +1,43 @@
 {% extends 'base.html'%}
+{% load static %}
 
 {% block content %}
 <div class="main-home main">
     <!-- <h2> This is Home page</h2> -->
     <div class="videos">
         {% for video in videos %}
+
+        <!-- main Vido -->
         <div class="video">
-            <a href="{% url 'video' video.id%}">
-                <video src="{{ video.media.url }}" width='400'></video>
-                    <!-- <source src="{{ video.media.url }}">
-                    Your browser does not support the video tag.
-                </video> -->
+
+            <!-- Video -->
+            <a href="{% url 'video' video.id%}" class="video-link">
+                <video src="{{ video.media.url }}" width='300'></video>
             </a>
+
+            <!-- Meta Info about Video -->
+            <div class="video-info">
+
+                <!-- Channel Logo -->
+                <a href="#">
+                    <div class="channel-logo">
+                        <img src="{{ video.channel.logo }}" alt="logo">
+                    </div>
+                </a>
+
+                <!-- This is video title -->
+                <a href="{% url 'video' video.id%}" class="video-title">
+                    {{ video.title }}
+                </a>
+
+                <!-- This is channel name -->
+                <a href="#" class="channel-name">
+                    {{ video.channel.name }}<br>
+                    10M views
+                </a>
+                
+            </div>
+            
         </div>
         {% endfor %}
     </div>
