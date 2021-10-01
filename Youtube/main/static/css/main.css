@@ -19,6 +19,24 @@ body {
     grid-template-columns: 1fr 3fr 1fr;
 }
 
+.nav .logo {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: start;
+    align-items: center;
+}
+
+.nav .logo img {
+    width: 3em;
+    height: 3em;
+}
+
+.nav .logo a {
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+
 #search {
     width: 80%
 }
@@ -53,7 +71,7 @@ body {
     padding: 1.5em;
     display: grid;
     grid-template-columns: auto auto auto auto;
-    column-gap: 1em;
+    column-gap: 0.5em;
     row-gap: 1em;
 }
 
