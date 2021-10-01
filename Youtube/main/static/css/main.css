@@ -123,12 +123,22 @@ body {
 .video-main {
     display: grid;
     grid-template-columns: auto auto;
+    padding: 1em;
+}
+
+.video-main div.single-video video {
+    width: 750;
+}
+
+.single-video {
+    display: grid;
+    grid-template-rows: auto auto;
 }
 
 .video-main div.video {
     grid-column: 1;
     grid-row: 1;
-    padding-left: 1em;
+    /* padding-left: 1em; */
 }
 
 .video-main div.side-videos {
