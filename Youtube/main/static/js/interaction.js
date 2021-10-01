@@ -67,3 +67,9 @@ function interaction(interactionType, videoId) {
             }
         })
 }
+
+function showReply(formId) {
+
+    let form = document.getElementById('form-'+formId)
+    form.style.display = 'block';
+}
