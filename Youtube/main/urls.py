@@ -14,5 +14,6 @@ urlpatterns = [
     path('upload/', uploadContent, name='upload'),
     path('video/<int:video_id>/', video, name='video'),
     path('interaction-status/', interaction_status, name='interaction_status'),
-    path('feed-interaction/', feed_interaction, name='feed_interaction')
+    path('feed-interaction/', feed_interaction, name='feed_interaction'),
+    # path('comment/', comments, name='comment')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
