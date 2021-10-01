@@ -37,7 +37,7 @@ def video(request, *args, **kwargs):
     form = CommentForm(request.POST or None)
 
     if form.is_valid():
-        
+
         user = request.user
         comment_text = request.POST['info']
 
@@ -49,6 +49,8 @@ def video(request, *args, **kwargs):
                 comment.reply_ref = Comment(id = request.POST['comment_id'])
         
         comment.save()
+
+        form = CommentForm()
 
     # set the context variable
     ctx = {'form': form, 'video': video, 'videos':videos}
