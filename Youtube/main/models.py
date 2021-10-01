@@ -40,6 +40,13 @@ class Content(models.Model):
     def __str__(self) -> str:
         return self.title + ' on ' + self.channel.name
 
+    
+    # Get all the commetns
+    @property
+    def get_comments(self):
+
+        return self.comment_set.all().order_by('created_at')
+
 
 # Interaction 
 class Interaction(models.Model):
@@ -59,3 +66,8 @@ class Comment(models.Model):
     content = models.ForeignKey(Content, on_delete=models.CASCADE)
     reply_ref = models.ForeignKey('Comment', on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def get_comments(self):
+
+        return self.comment_set.all().order_by('created_at')
