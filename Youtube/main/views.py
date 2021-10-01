@@ -5,8 +5,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
 
-from main.forms import UserLoginForm, UserRegistrationForm, ChannelForm, ContentForm
-from .models import Channel, Content, Interaction, User
+from main.forms import UserLoginForm, UserRegistrationForm, ChannelForm, ContentForm, CommentForm
+from .models import Channel, Comment, Content, Interaction, User
 
 # Create your views here.
 # this is Home View
@@ -32,8 +32,26 @@ def video(request, *args, **kwargs):
     # get all Videos for side view
     videos = Content.objects.exclude(pk = video_id)
 
+
+    # Here is the code to handle comments on tha page
+    form = CommentForm(request.POST or None)
+
+    if form.is_valid():
+        
+        user = request.user
+        comment_text = request.POST['info']
+
+        video = Content.objects.get(pk = video_id)
+
+        comment = Comment(content = video, user = user, info=comment_text)
+
+        if 'comment_id' in request.POST:
+                comment.reply_ref = Comment(id = request.POST['comment_id'])
+        
+        comment.save()
+
     # set the context variable
-    ctx = {'video': video, 'videos':videos}
+    ctx = {'form': form, 'video': video, 'videos':videos}
 
     return render(request, 'video.html', context=ctx)
 
@@ -232,3 +250,37 @@ def interaction_status(request, *args, **kwargs):
 
     return JsonResponse({'like': like, 'dislike': dislike, 'watch':watch})
 
+
+# View to handle comments
+# @login_required(login_url='login')
+# def comments(request, *args, **kwargs):
+
+#     form = CommentForm(request.POST or None)
+
+#     if form.is_valid():
+
+#         video_id = request.POST['video_id']
+#         user = request.user
+#         comment_text = request.POST['info']
+
+#         video = Content.objects.get(pk = video_id)
+
+#         comment = Comment(content = video, user = user, info=comment_text)
+
+#         if 'comment_id' in request.POST:
+#                 comment.reply_ref = request.POST['comment_id']
+        
+#         comment.save()
+    
+#     # all_comments = [{
+#     #                 'comment': comment,
+#     #                 'replyies': [{
+#     #                                 'comment': nested_comment
+#     #                              } for nested_comment in comment.comment_set.all()
+#     #                             ]
+#     #                  } for comment in Comment.objects.all()
+#     #                 ]
+
+#     ctx = {'form': form}
+
+#     return render()
