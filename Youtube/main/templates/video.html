@@ -1,25 +1,144 @@
 {% extends 'base.html'%}
+{% load static %}
+
+<!-- JS script to get likes and dislikes -->
+
 
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'js/interaction.js'%}"></script>
+
 <div class="video-main">
 
+    {% csrf_token %}
+
     <!-- Single Video Section -->
-    <div class="video">
+    <div class="single-video">
         <video src="{{ video.media.url }}" width='750' controls>
-            <!-- <source src="{{ video.media.url }}">
-            Your browser does not support the video tag.
-        </video> -->
+
+        <!-- Video Caption -->
+        <div class="caption"><h1> {{ video.title }} </h1></div>
+
     </div>
     <!-- Single Video Section Ends here -->
+
+    <!-- Video Interaction Info -->
+    <div class="interaction">
+
+        <!-- Video Like Button -->
+        <div class="like">
+            <button onclick="interaction('like', {{ video.id }})">Like</button>
+            <div id="like-count"></div>
+        </div>
+
+        <!-- Video Dislike Button -->
+        <div class="dislike">
+            <button onclick="interaction('dislike', {{ video.id }})">Dislike</button>
+            <div id="dislike-count"></div>
+        </div>
+
+        <!-- Video Viws INfo -->
+        <div class="views">
+            Views
+            <div id="views-count"></div>
+        </div>
+    </div>
+
+    <div class="description">
+        {{ video.description }}
+    </div>
 
     <!-- Comment Section is here -->
     <div class="comments">
 
+        <!-- This is comment form -->
+        <form action="" method="POST" class="comment-form">
+            {% csrf_token %}
+            
+            {{ form.erros }}
+            {{ form.info.erros }}
+
+            <div class="row d-flex">
+                <div class="col-md-8">
+                    <div class="d-flex flex-row add-comment-section mt-4 mb-4"><img class="img-fluid img-responsive rounded-circle mr-2" src="https://i.imgur.com/qdiP4DB.jpg" width="38"><input type="text" class="form-control mr-3" placeholder="Add comment" name="info"><button class="btn btn-primary" type="Submit">Comment</button></div>
+                </div>
+            </div>
+
+        </form>
+        <!-- Comment form end here -->
+
+        <!-- All parent comments are here -->
+        {% if video.get_comments %}
+
+        {% for comment in video.get_comments %}
+        <div class="comment">
+
+            <!-- <div class="container mt-5"> -->
+                <div class="row d-flex">
+                    <div class="col-md-8">
+                        <div class="card p-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="user d-flex flex-row align-items-center"> <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold text-primary">{{ comment.user.username }}</small> <small class="font-weight-bold">{{ comment.info }}</small></span> </div> <small>{{ comment.created_at }}</small>
+                            </div>
+                            <div class="action d-flex justify-content-between mt-2 align-items-center">
+                                <div class="reply px-4"> <small>Remove</small> <span class="dots"></span> <button class="btn" onclick="showReply({{comment.id}})"><small>Reply</small></button> <span class="dots"></span> <small>Translate</small> </div>
+                                <div class="icons align-items-center"> <i class="fa fa-star text-warning"></i> <i class="fa fa-check-circle-o check-icon"></i> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- </div> -->
+
+            <!-- These all are replies to parent comment -->
+            <div class="replies">
+                {% for reply in comment.get_comments %}
+
+                <!-- <div class="container mt-5"> -->
+                    <div class="row d-flex">
+                        <div class="col-md-8">
+                            <div class="card p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="user d-flex flex-row align-items-center"> <img src="https://i.imgur.com/hczKIze.jpg" width="30" class="user-img rounded-circle mr-2"> <span><small class="font-weight-bold text-primary">{{ reply.user.username }}</small> <small class="font-weight-bold">{{ reply.info }}</small></span> </div> <small>{{ reply.created_at }}</small>
+                                </div>
+                                <div class="action d-flex justify-content-between mt-2 align-items-center">
+                                    <div class="reply px-4"> <small>Remove</small> <span class="dots"></span> <span class="dots"></span> <small>Translate</small> </div>
+                                    <div class="icons align-items-center"> <i class="fa fa-check-circle-o check-icon"></i> </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- </div> -->
+
+                {% endfor %}
+            </div>
+            <!-- This is end of replies -->
+
+            <!-- This is reply form -->
+            <form action="" method="POST" class="reply-form" id="form-{{comment.id}}" style="display:none;">
+                {% csrf_token %}
+
+                {{ form.erros }}
+                {{ form.info.erros }}
+
+                <div class="row d-flex">
+                    <div class="col-md-8">
+                        <div class="d-flex flex-row add-comment-section mt-4 mb-4"><img class="img-fluid img-responsive rounded-circle mr-2" src="https://i.imgur.com/qdiP4DB.jpg" width="38"><input type="text" class="form-control mr-3" placeholder="Add a Reply" name="info"><button class="btn btn-primary" type="Submit">Reply</button></div>
+                    </div>
+                </div>
+
+                <input type="hidden" name="reply_ref" value="{{ comment.id }}">
+            </form>
+        </div>
+        {% endfor %}
+        {% else %}
+        No comments
+        {% endif %}
+        
     </div>
     <!-- Comment Section Ends here -->
 
     <!-- Side Videos -->
-    <div class="videos">
+    <div class="side-videos">
         {% for vid in videos %}
         <div class="video">
             <a href="{% url 'video' vid.id%}">
