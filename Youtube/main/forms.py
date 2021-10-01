@@ -1,7 +1,8 @@
 from django import forms
 from django.db import models
+from django.db.models import fields
 
-from .models import Content, User, Channel
+from .models import Content, User, Channel, Comment
 
 
 # This is form for user Login
@@ -46,3 +47,13 @@ class ContentForm(forms.ModelForm):
     class Meta:
         model = Content
         exclude = ['channel', 'user', 'created_at']
+
+
+# Form for comments
+class CommentForm(forms.ModelForm):
+
+    # reply_ref = forms.CharField(widget=forms.HiddenInput)
+
+    class Meta:
+        model = Comment
+        fields = ['info']
